@@ -48,7 +48,7 @@ var CardGame = function(targetId)
   {
     if(id === card1) return;
     if(cards[id].matched) return;
-    cards[id].className= "card:;
+    cards[id].className= "card";
     cards[id].firstChild.src = "//fcu-d0449763.github.io/sitcon_camp/images/" + card_value[id] + ".png";
     //點擊後放大並旋轉-5度
 	with(cards[id].style) {
