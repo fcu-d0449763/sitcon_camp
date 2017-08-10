@@ -48,7 +48,7 @@ var CardGame = function(targetId)
   {
     if(id === card1) return;
     if(cards[id].matched) return;
-
+    cards[id].className= card;
     cards[id].firstChild.src = "//fcu-d0449763.github.io/sitcon_camp/images/" + card_value[id] + ".png";
     //點擊後放大並旋轉-5度
 	with(cards[id].style) {
@@ -102,8 +102,9 @@ var CardGame = function(targetId)
 
   // template for card
   var card = document.createElement("div");
-  card.innerHTML = "<img src=\"//fcu-d0449763.github.io/sitcon_camp/images/back.png\">";
+  card.innerHTML = "<img class="card" src=\"//fcu-d0449763.github.io/sitcon_camp/images/back.png\">";
   card.className="card"
+  
 
   for(var i=0; i < 16; i++) {
     var newCard = card.cloneNode(true);
