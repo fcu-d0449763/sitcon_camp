@@ -102,7 +102,7 @@ var CardGame = function(targetId)
 
   // template for card
   var card = document.createElement("div");
-  card.innerHTML = "<img class="card" src=\"//fcu-d0449763.github.io/sitcon_camp/images/back.png\">";
+  card.innerHTML = "<img class=\"card\" src=\"//fcu-d0449763.github.io/sitcon_camp/images/back.png\">";
   card.className="card";
   
 
