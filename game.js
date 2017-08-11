@@ -96,7 +96,7 @@ var CardGame = function(targetId) {
                     setTimeout(function() {
                         hideCard(card1);
                         hideCard(card2);
-                    }, 2000);
+                    }, 1800);
                 })(card1, card2);
             }
             card1 = card2 = false;
@@ -148,7 +148,8 @@ var CardGame = function(targetId) {
         }
 
     };
-    alertify.alert('Hi! 請根據卡牌上的題目找到相對應的答案!');
+	alertify.alert('Hi! 請根據卡牌上的題目找到相對應的答案!').set({onshow:null, onclose:function(){ startCard();}}); 
+
     startCard();
 
 
