@@ -108,19 +108,23 @@ var CardGame = function (targetId) {
         if (started) {
             showCard(id);
         } else {
-            // shuffle and deal cards
-            card_value.sort(function () {
-                return Math.round(Math.random()) - 0.5;
-            });
-            for (i = 0; i < 16; i++) {
-                (function (idx) {
-                    setTimeout(function () {
-                        moveToPlace(idx);
-                    }, idx * 100);
-                })(i);
-            }
-            started = true;
+            deal();
         }
+    };
+
+    var deal = function () {
+        // shuffle and deal cards
+        card_value.sort(function () {
+            return Math.round(Math.random()) - 0.5;
+        });
+        for (i = 0; i < 16; i++) {
+            (function (idx) {
+                setTimeout(function () {
+                    moveToPlace(idx);
+                }, idx * 100);
+            })(i);
+        }
+        started = true;
     };
 
     // initialise 初始化
