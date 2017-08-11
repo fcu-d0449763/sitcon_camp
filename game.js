@@ -21,12 +21,12 @@ var CardGame = function(targetId) {
 
     var moveToPack = function(id) // move card to pack
     {
-        //hideCard(id);
+        hideCard(id);
         cards[id].matched = true;
         with(cards[id].style) {
             zIndex = "1000";
-            //top = "100px";
-            //left = "-140px";
+            top = "15px";
+            left = "15px";
             WebkitTransform = MozTransform = OTransform = msTransform = "rotate(0deg)";
             zIndex = "0";
         }
@@ -57,18 +57,26 @@ var CardGame = function(targetId) {
 
         if (card1 !== false) {
             card2 = id;
-			
+
             if (parseInt(card_value[card1]) == parseInt(card_value[card2])) { // match found
-                (function(card1, card2) {
+                /*(function(card1, card2) {
                     setTimeout(function() {
                         moveToPack(card1);
                         moveToPack(card2);
                     }, 1000);
-                })(card1, card2);
+                })(card1, card2);*/
+                
                 if (++matches_found == 8) { // game over, reset
                     alertify.alert("恭喜完成闖關");
                     matches_found = 0;
                     started = false;
+					for (i = 0; i < 16; i++) {
+                    (function(idx) {
+                        setTimeout(function() {
+                            moveToPack(idx);
+                        }, idx * 100);
+                    })(i);
+                }
                     startCard();
                 }
             } else { // no match
