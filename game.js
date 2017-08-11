@@ -9,10 +9,14 @@ var CardGame = function (targetId) {
     var matches_found = 0;
     var card1 = false,
         card2 = false;
+    var clickable = [];
 
     //隱藏卡片
     var hideCard = function (id) // turn card face down
     {
+        setTimeout(function () {
+            clickable.push(id);
+        }, 500);
         cards[id].firstChild.src = "//fcu-d0449763.github.io/sitcon_camp/images/back.png";
         with (cards[id].style) {
             WebkitTransform = MozTransform = OTransform = msTransform = "scale(1.0) rotate(0deg)";
@@ -45,6 +49,9 @@ var CardGame = function (targetId) {
 
     var moveToPlace = function (id) // deal card
     {
+        setTimeout(function () {
+            clickable.push(id);
+        }, 500);
         cards[id].matched = false;
         with (cards[id].style) {
             zIndex = "1000";
@@ -57,6 +64,7 @@ var CardGame = function (targetId) {
     //dolist:點擊之後
     var showCard = function (id) // turn card face up, check for match
     {
+        clickable.splice($.inArray(id, clickable), 1);
         if (id === card1) return;
         if (cards[id].matched) return;
         cards[id].className = "card";
@@ -78,12 +86,6 @@ var CardGame = function (targetId) {
                 })(card1, card2);
 
                 if (++matches_found == 8) { // game over, reset
-                    alertify.alert('恭喜', '恭喜完成闖關').set({
-                        label: '重新開始',
-                        onok: function (closeEvent) {
-                            deal();
-                        }
-                    });
                     matches_found = 0;
                     started = false;
                     for (i = 0; i < 16; i++) {
@@ -95,6 +97,13 @@ var CardGame = function (targetId) {
                     }
                     setTimeout(function () {
                         startCard();
+                        alertify.alert('恭喜', '恭喜完成闖關').set({
+                            label: '重新開始',
+                            closable: false,
+                            onok: function (closeEvent) {
+                                deal();
+                            }
+                        });
                     }, 16 * 100);
                 }
             } else { // no match
@@ -110,11 +119,15 @@ var CardGame = function (targetId) {
             card1 = id;
         }
     };
+
     //點擊第一張之後亂數決定卡片位置
     var cardClick = function (id) {
+        //防止連點或動畫中點擊
+        if ($.inArray(id, clickable) === -1) return;
         showCard(id);
     };
 
+    //發牌
     var deal = function () {
         // shuffle and deal cards
         card_value.sort(function () {
@@ -156,8 +169,10 @@ var CardGame = function (targetId) {
         }
 
     };
+
     alertify.alert('Hi!', '請根據卡牌上的題目找到相對應的答案!').set({
         label: '開始',
+        closable: false,
         onok: function (closeEvent) {
             deal();
         }
