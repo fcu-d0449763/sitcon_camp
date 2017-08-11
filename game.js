@@ -11,6 +11,7 @@ var CardGame = function(targetId)
   var matches_found = 0;
   var card1 = false, card2 = false;
 
+  //隱藏卡片
   var hideCard = function(id) // turn card face down
   {
     cards[id].firstChild.src = "//fcu-d0449763.github.io/sitcon_camp/images/back.png";
@@ -43,7 +44,7 @@ var CardGame = function(targetId)
       zIndex = "0";
     }
   };
-
+//dolist:點擊之後
   var showCard = function(id) // turn card face up, check for match
   {
     if(id === card1) return;
@@ -65,6 +66,7 @@ var CardGame = function(targetId)
 		  alertify.alert("恭喜完成闖關");
           matches_found = 0;
           started = false;
+		  startCard();
         }
       } else { // no match
         (function(card1, card2) {
@@ -91,36 +93,35 @@ var CardGame = function(targetId)
       }
       started = true;
     }
-  };
+  }
 
   // initialise 初始化
+  var startCard = function(){
+	  // template for card
+      var card = document.createElement("div");
+	  card.innerHTML = "<img src=\"//fcu-d0449763.github.io/sitcon_camp/images/back.png\">";
+	  card.className="card";
+	  
 
-  /*var stage = document.getElementById(targetId);
-  var felt = document.createElement("div");
-  felt.id = "felt";
-  stage.appendChild(felt);*/
+	  for(var i=0; i < 16; i++) {
+		var newCard = card.cloneNode(true);
+		newCard.className="card";
+		newCard.fromtop = 15+window.innerHeight / 4 * Math.floor(i / 4);
+		newCard.fromleft = 15 + window.innerWidth / 4 * (i % 4);
+		(function(idx) {
+		  newCard.addEventListener("click", function() { cardClick(idx); }, false);
+		})(i);
 
-  // template for card
-  var card = document.createElement("div");
-  card.innerHTML = "<img src=\"//fcu-d0449763.github.io/sitcon_camp/images/back.png\">";
-  card.className="card";
+		document.body.appendChild(newCard);
+		cards.push(newCard);
+	  }
+  
+  };
+  alertify.alert('Hi! 請根據卡牌上的題目找到相對應的答案!'); 
+  startCard();
+  
+  
   
 
-  for(var i=0; i < 16; i++) {
-    var newCard = card.cloneNode(true);
-	newCard.className="card";
-
-    //newCard.fromtop = 15 + 120 * Math.floor(i/4);
-    //newCard.fromleft = 70 + 100 * (i%4);
-	newCard.fromtop = 15+window.innerHeight / 4 * Math.floor(i / 4);
-	newCard.fromleft = 15 + window.innerWidth / 4 * (i % 4);
-    (function(idx) {
-      newCard.addEventListener("click", function() { cardClick(idx); }, false);
-    })(i);
-
-    //felt.appendChild(newCard);
-	document.body.appendChild(newCard);
-    cards.push(newCard);
-  }
 
 }
