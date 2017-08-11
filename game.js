@@ -93,7 +93,9 @@ var CardGame = function (targetId) {
                             }, idx * 100);
                         })(i);
                     }
-                    startCard();
+                    setTimeout(function () {
+                        startCard();
+                    }, 16 * 100);
                 }
             } else { // no match
                 (function (card1, card2) {
@@ -130,11 +132,13 @@ var CardGame = function (targetId) {
 
     // initialise 初始化
     var startCard = function () {
+        cards = [];
+        $('.card').remove();
+
         // template for card
         var card = document.createElement("div");
         card.innerHTML = "<img src=\"//fcu-d0449763.github.io/sitcon_camp/images/back.png\">";
         card.className = "card";
-
 
         for (var i = 0; i < 16; i++) {
             var newCard = card.cloneNode(true);
