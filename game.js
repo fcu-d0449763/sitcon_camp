@@ -78,7 +78,12 @@ var CardGame = function (targetId) {
                 })(card1, card2);
 
                 if (++matches_found == 8) { // game over, reset
-                    alertify.alert("恭喜完成闖關");
+                    alertify.alert('恭喜', '恭喜完成闖關').set({
+                        label: '重新開始',
+                        onok: function (closeEvent) {
+                            deal();
+                        }
+                    });
                     matches_found = 0;
                     started = false;
                     for (i = 0; i < 16; i++) {
@@ -105,11 +110,7 @@ var CardGame = function (targetId) {
     };
     //點擊第一張之後亂數決定卡片位置
     var cardClick = function (id) {
-        if (started) {
-            showCard(id);
-        } else {
-            deal();
-        }
+        showCard(id);
     };
 
     var deal = function () {
@@ -151,9 +152,10 @@ var CardGame = function (targetId) {
         }
 
     };
-    alertify.alert('Hi! 請根據卡牌上的題目找到相對應的答案!').set({
-        onshow: null, onclose: function () {
-            startCard();
+    alertify.alert('Hi!', '請根據卡牌上的題目找到相對應的答案!').set({
+        label: '開始',
+        onok: function (closeEvent) {
+            deal();
         }
     });
 
