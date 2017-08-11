@@ -1,8 +1,8 @@
 // Original JavaScript code by Chirp Internet: www.chirp.com.au
 // Please acknowledge use of this code by including this header.
-var CardGame = function(targetId) {
+var CardGame = function (targetId) {
     // private variables
-    var cards = []
+    var cards = [];
     var card_value = ["1C", "2C", "3C", "4C", "5C", "6C", "7C", "8C", "1H", "2H", "3H", "4H", "5H", "6H", "7H", "8H"];
 
     var started = false;
@@ -11,19 +11,19 @@ var CardGame = function(targetId) {
         card2 = false;
 
     //隱藏卡片
-    var hideCard = function(id) // turn card face down
+    var hideCard = function (id) // turn card face down
     {
         cards[id].firstChild.src = "//fcu-d0449763.github.io/sitcon_camp/images/back.png";
-        with(cards[id].style) {
+        with (cards[id].style) {
             WebkitTransform = MozTransform = OTransform = msTransform = "scale(1.0) rotate(0deg)";
         }
     };
 
-    var moveToPack = function(id) // move card to pack
+    var moveToPack = function (id) // move card to pack
     {
         hideCard(id);
         cards[id].matched = true;
-        with(cards[id].style) {
+        with (cards[id].style) {
             zIndex = "1000";
             top = "15px";
             left = "15px";
@@ -32,22 +32,21 @@ var CardGame = function(targetId) {
         }
     };
 
-    var moveToFinish = function(id) // move card to pack
+    var moveToFinish = function (id) // move card to pack
     {
         cards[id].matched = true;
-        with(cards[id].style) {
+        with (cards[id].style) {
             zIndex = "1000";
             WebkitTransform = MozTransform = OTransform = msTransform = "rotate(0deg)";
             zIndex = "0";
         }
-    };	
-	
-	
-	
-    var moveToPlace = function(id) // deal card
+    };
+
+
+    var moveToPlace = function (id) // deal card
     {
         cards[id].matched = false;
-        with(cards[id].style) {
+        with (cards[id].style) {
             zIndex = "1000";
             top = cards[id].fromtop + "px";
             left = cards[id].fromleft + "px";
@@ -56,14 +55,14 @@ var CardGame = function(targetId) {
         }
     };
     //dolist:點擊之後
-    var showCard = function(id) // turn card face up, check for match
+    var showCard = function (id) // turn card face up, check for match
     {
         if (id === card1) return;
         if (cards[id].matched) return;
         cards[id].className = "card";
         cards[id].firstChild.src = "//fcu-d0449763.github.io/sitcon_camp/images/" + card_value[id] + ".png";
         //點擊後放大並旋轉-5度
-        with(cards[id].style) {
+        with (cards[id].style) {
             WebkitTransform = MozTransform = OTransform = msTransform = "scale(1.2) rotate(-5deg)";
         }
 
@@ -71,29 +70,34 @@ var CardGame = function(targetId) {
             card2 = id;
 
             if (parseInt(card_value[card1]) == parseInt(card_value[card2])) { // match found
-                (function(card1, card2) {
-                    setTimeout(function() {
+                (function (card1, card2) {
+                    setTimeout(function () {
                         moveToFinish(card1);
                         moveToFinish(card2);
                     }, 1000);
                 })(card1, card2);
-                
+
                 if (++matches_found == 8) { // game over, reset
-                    alertify.alert("恭喜完成闖關");
+                    alertify.alert('恭喜', '恭喜完成闖關').set({
+                        label: '重新開始',
+                        onok: function (closeEvent) {
+                            deal();
+                        }
+                    });
                     matches_found = 0;
                     started = false;
-					for (i = 0; i < 16; i++) {
-                    (function(idx) {
-                        setTimeout(function() {
-                            moveToPack(idx);
-                        }, idx * 100);
-                    })(i);
-                }
+                    for (i = 0; i < 16; i++) {
+                        (function (idx) {
+                            setTimeout(function () {
+                                moveToPack(idx);
+                            }, idx * 100);
+                        })(i);
+                    }
                     startCard();
                 }
             } else { // no match
-                (function(card1, card2) {
-                    setTimeout(function() {
+                (function (card1, card2) {
+                    setTimeout(function () {
                         hideCard(card1);
                         hideCard(card2);
                     }, 1800);
@@ -105,27 +109,27 @@ var CardGame = function(targetId) {
         }
     };
     //點擊第一張之後亂數決定卡片位置
-    var cardClick = function(id) {
-        if (started) {
-            showCard(id);
-        } else {
-            // shuffle and deal cards
-            card_value.sort(function() {
-                return Math.round(Math.random()) - 0.5;
-            });
-            for (i = 0; i < 16; i++) {
-                (function(idx) {
-                    setTimeout(function() {
-                        moveToPlace(idx);
-                    }, idx * 100);
-                })(i);
-            }
-            started = true;
+    var cardClick = function (id) {
+        showCard(id);
+    };
+
+    var deal = function () {
+        // shuffle and deal cards
+        card_value.sort(function () {
+            return Math.round(Math.random()) - 0.5;
+        });
+        for (i = 0; i < 16; i++) {
+            (function (idx) {
+                setTimeout(function () {
+                    moveToPlace(idx);
+                }, idx * 100);
+            })(i);
         }
-    }
+        started = true;
+    };
 
     // initialise 初始化
-    var startCard = function() {
+    var startCard = function () {
         // template for card
         var card = document.createElement("div");
         card.innerHTML = "<img src=\"//fcu-d0449763.github.io/sitcon_camp/images/back.png\">";
@@ -137,8 +141,8 @@ var CardGame = function(targetId) {
             newCard.className = "card";
             newCard.fromtop = 15 + window.innerHeight / 4 * Math.floor(i / 4);
             newCard.fromleft = 15 + window.innerWidth / 4 * (i % 4);
-            (function(idx) {
-                newCard.addEventListener("click", function() {
+            (function (idx) {
+                newCard.addEventListener("click", function () {
                     cardClick(idx);
                 }, false);
             })(i);
@@ -148,11 +152,12 @@ var CardGame = function(targetId) {
         }
 
     };
-	alertify.alert('Hi! 請根據卡牌上的題目找到相對應的答案!').set({onshow:null, onclose:function(){ startCard();}}); 
+    alertify.alert('Hi!', '請根據卡牌上的題目找到相對應的答案!').set({
+        label: '開始',
+        onok: function (closeEvent) {
+            deal();
+        }
+    });
 
     startCard();
-
-
-
-
-}
+};
