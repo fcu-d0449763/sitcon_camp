@@ -170,7 +170,7 @@ var CardGame = function (targetId) {
 
     };
 
-    alertify.alert('Hi!', '請根據卡牌上的題目找到相對應的答案!','<img class="card" src="images/question.png">','<img class="card" src="images/ans.png">','<img class="card" src="images/backinfo.png">').set({
+    alertify.alert('Hi!', '請根據卡牌上的題目找到相對應的答案!<img class="card" src="images/question.png"><img class="card" src="images/ans.png"><img class="card" src="images/backinfo.png">').set({
         label: '開始',
         closable: false,
         onok: function (closeEvent) {
