@@ -99,7 +99,7 @@ var CardGame = function (targetId) {
                         startCard();
                         alertify.confirm(' 恭喜完成闖關').set({
 							title:'恭喜',
-                            label: {ok:'重新開始',cancel:'查看解析'},
+                            labels: {ok:'重新開始',cancel:'查看解析'},
                             closable: false,
                             onok: function (closeEvent) {
                                 deal();
