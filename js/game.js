@@ -97,12 +97,18 @@ var CardGame = function (targetId) {
                     }
                     setTimeout(function () {
                         startCard();
-                        alertify.alert('恭喜', '恭喜完成闖關').set({
-                            label: '重新開始',
+                        alertify.confirm(' 恭喜完成闖關').set({
+							title:'恭喜',
+                            label: {ok:'重新開始',cancel:'查看解析'},
                             closable: false,
                             onok: function (closeEvent) {
                                 deal();
+                            },
+
+							oncancel:function(closeEvent) {
+                                window.location = 'https://fcu-d0449763.github.io/sitcon_camp/explain';
                             }
+
                         });
                     }, 16 * 100);
                 }
