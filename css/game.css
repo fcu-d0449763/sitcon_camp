@@ -1,0 +1,30 @@
+body {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    /*
+      Introduced in IE 10.
+      See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+    */
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.card {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    z-index: 0;
+
+    -moz-transition: 0.5s ease-in-out;
+    -o-transition: 0.5s ease-in-out;
+    transition: 0.5s ease-in-out;
+
+    -webkit-transition-property: left, top, -webkit-transform;
+    -webkit-transition-duration: 0.5s;
+    -webkit-transition-timing-function: ease-out, ease-out, ease-in-out;
+}
+
+.card img {
+    height: 15vh;
+}
